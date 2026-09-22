@@ -138,15 +138,13 @@ a.collection-card{display:block;transition:border-color .2s}a.collection-card:ho
 .pearl-collection>.section-heading>div,.collection-detail>.section-heading>div{width:100%}
 .pearl-collection .collection-intro,.collection-detail .collection-intro{max-width:850px;margin-inline:auto}
 
-/* A gentle gold glint for the new collections heading. */
-.new-collections-title{display:flex;align-items:center;gap:16px}
-.collection-shimmer{color:var(--ink);background:linear-gradient(110deg,var(--ink) 35%,var(--accent) 44%,var(--gold) 50%,var(--accent) 56%,var(--ink) 65%);background-size:250% 100%;background-position:100% 0;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:collection-shine 5s ease-in-out 2}
-.collection-sparkles{display:inline-flex;align-items:center;gap:5px;color:var(--accent);font-size:.42em;flex-shrink:0}
-.collection-sparkles span{animation:collection-twinkle 3s ease-in-out 3}
-.collection-sparkles span+span{font-size:.6em;align-self:flex-start;animation-delay:.7s}
-@keyframes collection-shine{0%,20%{background-position:100% 0}80%,100%{background-position:0% 0}}
-@keyframes collection-twinkle{0%,100%{opacity:.6;transform:scale(.9)}50%{opacity:1;transform:scale(1.12)}}
-@media(prefers-reduced-motion:reduce){.collection-shimmer,.collection-sparkles span{animation:none}.collection-shimmer{background:none;-webkit-text-fill-color:var(--ink)}}
+/* A fine gold line draws in when the collections heading enters view. */
+.new-collections-title{display:block;width:fit-content}
+.new-collections-title::after{content:"";display:block;width:100px;height:1px;margin:18px auto 0;background:#a47e35}
+.new-collections-title.line-revealed::after{animation:collection-line-reveal 1.7s cubic-bezier(.2,.65,.3,1) both}
+@keyframes collection-line-reveal{from{transform:scaleX(0);opacity:.2}to{transform:scaleX(1);opacity:1}}
+@media(max-width:700px){.new-collections-title{margin-inline:auto}}
+@media(prefers-reduced-motion:reduce){.new-collections-title.line-revealed::after{animation:none}}
 
 /* Editable placeholder prices in Peruvian soles. */
 .piece>p.piece-price{margin-top:16px;color:var(--ink);font-size:1rem;font-weight:500;line-height:1.5;font-variant-numeric:tabular-nums}
@@ -164,3 +162,41 @@ a.collection-card{display:block;transition:border-color .2s}a.collection-card:ho
 .view-piece{width:40px;height:40px;min-height:40px;padding:0;gap:0}
 .view-piece svg{width:18px;height:18px}
 @media(pointer:coarse){.view-piece{width:44px;height:44px;min-height:44px}}
+
+/* Wide collection preview navigation. */
+#navigation>.collections-mobile-link{display:none}
+.site-header{position:relative;z-index:20}
+.collections-menu>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:.9rem}
+.collections-menu>summary::-webkit-details-marker{display:none}
+.collections-menu>summary:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
+.collections-menu[open]>summary{color:var(--accent)}
+.collections-dropdown{position:absolute;top:100%;left:0;right:0;padding:28px 4.5% 24px;background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);box-shadow:0 16px 24px rgb(62 43 31 / .08);text-align:center;animation:collections-reveal .5s cubic-bezier(.25,.1,.25,1)}
+.collections-dropdown::before{content:"";position:absolute;left:0;right:0;top:-24px;height:24px}
+.collections-previews{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;max-width:1200px;margin-inline:auto}
+.collection-preview{display:block;min-width:0}
+.collection-preview img{width:100%;height:clamp(160px,19vw,250px);object-fit:cover;transition:filter .2s}
+.preview-title{display:block;font:400 clamp(1.5rem,2.3vw,2rem)/1.2 var(--serif);margin-top:12px}
+.preview-description{display:block;font-size:.8rem;color:var(--muted);margin-top:5px}
+nav .collection-preview:hover,nav .collections-all:hover{text-decoration:none;color:var(--accent)}
+.collection-preview:hover img{filter:brightness(1.04)}
+.collections-all{display:inline-flex;align-items:center;gap:12px;margin-top:22px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+@keyframes collections-reveal{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){
+  .site-header{justify-content:center;gap:0;padding:6px 6% 0}
+  #navigation{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:4px 0}
+  #navigation>a,.collections-menu>summary{white-space:nowrap;min-height:44px;display:flex;align-items:center}
+  #navigation>a,#navigation>a:hover,#navigation>a:focus,#navigation>a:active{text-decoration:none}
+  #navigation>.collections-mobile-link{display:flex}
+  .collections-menu{display:none}
+}
+@media(prefers-reduced-motion:reduce){.collections-dropdown{animation:none}}
+
+@media(max-width:700px){.hero-copy{align-items:center;text-align:center}}
+
+@media(max-width:700px){
+  #collection>.section-heading{align-items:center;text-align:center}
+  #collection>.section-heading>div{width:100%}
+  #collection .new-collections-title{justify-content:center}
+  .collection-card-copy{text-align:center}
+  .collection-card-copy .text-link{justify-content:center}
+}
