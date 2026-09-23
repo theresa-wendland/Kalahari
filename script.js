@@ -3,34 +3,7 @@ const studioEmail = '';
 // WhatsApp number in international format, including country code.
 const studioWhatsApp = '+51 953 126 238';
 
-const menuButton = document.querySelector('.menu-toggle');
-const navigation = document.querySelector('#navigation');
 const mobile = window.matchMedia('(max-width: 700px)');
-
-function closeMenu() {
-  menuButton.setAttribute('aria-expanded', 'false');
-  navigation.classList.toggle('is-collapsed', mobile.matches);
-}
-function syncMenu() {
-  menuButton.hidden = !mobile.matches;
-  closeMenu();
-}
-menuButton.addEventListener('click', () => {
-  const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!isOpen));
-  navigation.classList.toggle('is-collapsed', isOpen);
-});
-navigation.addEventListener('click', event => {
-  if (event.target.closest('a')) closeMenu();
-});
-navigation.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && mobile.matches) {
-    closeMenu();
-    menuButton.focus();
-  }
-});
-mobile.addEventListener('change', syncMenu);
-syncMenu();
 
 const pieces = {
   pearlEarrings: { name: 'Pearl earrings', image: 'assets/pearl-collection-earrings.png', description: 'From the Pearl & Poise collection. Luminous pearl drops paired with 18k gold-plated hardware, in a selection of delicate silhouettes.' },
@@ -121,6 +94,15 @@ if (studioEmail) {
 // Click-to-chat opens a draft; it never sends a message automatically.
 const whatsAppNumber = studioWhatsApp.replace(/[^0-9]/g, '');
 if (/^[1-9][0-9]{6,14}$/.test(whatsAppNumber)) {
+  const enquiryLink = document.querySelector('#contact-link');
+  if (enquiryLink && !studioEmail) {
+    enquiryLink.href = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent('Hi Kalahari! I would like to ask about a piece in your collection.')}`;
+    enquiryLink.target = '_blank';
+    enquiryLink.rel = 'noopener noreferrer';
+    enquiryLink.hidden = false;
+    document.querySelector('#contact-copy').textContent = 'Message us on WhatsApp for questions about a piece.';
+  }
+
   const message = 'Hi Kalahari! Could you share your upcoming pop-up dates and locations?';
   document.querySelectorAll('[data-whatsapp-popup]').forEach(placeholder => {
     const link = document.createElement('a');
@@ -133,4 +115,51 @@ if (/^[1-9][0-9]{6,14}$/.test(whatsAppNumber)) {
     link.rel = 'noopener noreferrer';
     placeholder.after(link);
   });
+}
+
+// Collection previews: native details supports tapping and keyboard activation.
+const collectionsMenu = document.querySelector('.collections-menu');
+const collectionsSummary = collectionsMenu.querySelector('summary');
+const hoverNavigation = window.matchMedia('(hover: hover) and (min-width: 701px)');
+let collectionsCloseTimer;
+function closeCollections() {
+  clearTimeout(collectionsCloseTimer);
+  collectionsMenu.open = false;
+}
+collectionsMenu.addEventListener('mouseenter', () => {
+  clearTimeout(collectionsCloseTimer);
+  if (hoverNavigation.matches) collectionsMenu.open = true;
+});
+collectionsMenu.addEventListener('mouseleave', () => {
+  if (hoverNavigation.matches && !collectionsMenu.contains(document.activeElement)) {
+    collectionsCloseTimer = setTimeout(closeCollections, 180);
+  }
+});
+collectionsMenu.addEventListener('focusout', event => {
+  if (!collectionsMenu.contains(event.relatedTarget)) closeCollections();
+});
+collectionsMenu.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && collectionsMenu.open) {
+    event.preventDefault();
+    event.stopPropagation();
+    closeCollections();
+    collectionsSummary.focus();
+  }
+});
+document.addEventListener('click', event => {
+  if (!collectionsMenu.contains(event.target)) closeCollections();
+});
+collectionsMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeCollections));
+mobile.addEventListener('change', closeCollections);
+
+// Play the heading accent once when it becomes visible.
+const newCollectionsTitle = document.querySelector('.new-collections-title');
+if (newCollectionsTitle && 'IntersectionObserver' in window) {
+  const headingObserver = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      newCollectionsTitle.classList.add('line-revealed');
+      headingObserver.disconnect();
+    }
+  }, { threshold: 0.6 });
+  headingObserver.observe(newCollectionsTitle);
 }
