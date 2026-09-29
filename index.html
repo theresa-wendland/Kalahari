@@ -7,7 +7,11 @@
   <title>Kalahari — Made by hand. Shaped by nature.</title>
   <link rel="icon" type="image/png" href="assets/kalahari-v2-monogram.png">
   <link rel="stylesheet" href="styles.css?v=20260920-gold-line">
-  <script src="script.js?v=20260921-enquiries" defer></script>
+  <script src="script.js?v=20260927-contact" defer></script>
+  <link rel="stylesheet" href="popup.css?v=20260927-inline-whatsapp">
+  <script src="popup.js?v=20260927-reference" defer></script>
+  <link rel="stylesheet" href="care.css?v=20260927">
+  <script src="care.js?v=20260927" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -135,16 +139,55 @@
       <article class="service-item">
         <h2>Care & Customization</h2>
         <p>Personalize, adjust or revive your creations.</p>
-        <a href="https://wa.me/51953126238?text=Hi%20Kalahari%21%20How%20should%20I%20care%20for%20my%20jewelry%3F" target="_blank" rel="noopener noreferrer" aria-label="Ask about jewelry care on WhatsApp">Ask about jewelry care</a>
+        <button type="button" class="care-trigger" aria-haspopup="dialog" aria-controls="care-dialog">Jewelry Care</button>
       </article>
     </section>
-    <section class="contact section-wrap" id="contact" aria-labelledby="contact-title"><h2 id="contact-title">Want to see the pieces in person?</h2><p id="contact-copy"><span data-whatsapp-popup>Message us for upcoming pop-up dates &amp; locations.</span></p><a class="button" id="contact-link" hidden>Ask about a piece <span aria-hidden="true">↗</span></a></section>
+    <section class="contact section-wrap popup-contact" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Want to see the pieces in person?</h2>
+      <div class="popup-contact-line"><p data-whatsapp-popup>Message us to find out where we’ll be next <span aria-hidden="true">→</span></p></div>
+      <div class="popup-carousel" role="region" aria-roledescription="carousel" aria-label="Photos from our pop-up" hidden>
+        <div class="popup-posts"></div>
+        <div class="popup-controls">
+          <button type="button" data-popup-prev aria-label="Previous photo">←</button>
+          <div class="popup-dots" aria-label="Choose a photo"></div>
+          <button type="button" data-popup-next aria-label="Next photo">→</button>
+        </div>
+        <p class="popup-status" aria-live="polite"></p>
+        <p class="popup-storage-note" hidden>Your selections will last for this visit only because browser storage is unavailable.</p>
+      </div>
+    </section>
   </main>
   <footer class="site-footer"><a class="footer-brand" href="#" aria-label="Kalahari home"><img src="assets/kalahari-v2-monogram.png" alt="Kalahari gold monogram" width="1254" height="1254"></a></footer>
   <dialog id="piece-dialog" aria-labelledby="dialog-title">
     <button class="dialog-close" aria-label="Close piece preview">×</button>
     <img id="dialog-image" src="assets/kalahari-v2-earrings.png" alt="" width="1122" height="1402">
     <div class="dialog-copy"><p class="eyebrow">More details</p><h2 id="dialog-title"></h2><p id="dialog-description"></p><a class="text-link" id="dialog-contact" href="#contact">Ask about Kalahari <span aria-hidden="true">↗</span></a></div>
+  </dialog>
+  <dialog id="care-dialog" class="care-dialog" aria-labelledby="care-title" aria-describedby="care-intro">
+    <button class="care-close" type="button" aria-label="Close jewelry care guide" autofocus>×</button>
+    <p class="eyebrow">A little care goes a long way</p>
+    <h2 id="care-title">Caring for your jewelry</h2>
+    <p id="care-intro">Keep pieces dry and away from perfume, lotions and cleaning products.</p>
+    <div class="care-materials">
+      <section aria-labelledby="care-gold-title">
+        <h3 id="care-gold-title">Gold-plated jewelry</h3>
+        <ul>
+          <li>Remove before showering, swimming or exercising.</li>
+          <li>Wipe gently with a soft, dry cloth. Avoid polish and scrubbing.</li>
+          <li>Store separately in a soft, dry pouch.</li>
+        </ul>
+      </section>
+      <section aria-labelledby="care-silver-title">
+        <h3 id="care-silver-title">Sterling silver</h3>
+        <ul>
+          <li>Remove before swimming, cleaning or exercising.</li>
+          <li>Use a silver-polishing cloth on plain, unplated silver only.</li>
+          <li>Store dry in an anti-tarnish pouch. Tarnish is natural.</li>
+        </ul>
+      </section>
+    </div>
+    <aside class="care-delicate"><h3>Pearls &amp; gemstones</h3><p>Wipe gently with a soft cloth. Avoid soaking, silver dips and ultrasonic cleaners. For mixed materials or special finishes, ask a jeweler before polishing.</p></aside>
+    <form method="dialog"><button class="button" type="submit">Got it</button></form>
   </dialog>
 </body>
 </html>

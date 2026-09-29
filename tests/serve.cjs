@@ -3,7 +3,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const pages = new Set(['index.html', 'pearl-and-poise.html', 'stone-and-soul.html', 'glass-and-glow.html', 'styles.css', 'script.js']);
+const pages = new Set(['index.html', 'pearl-and-poise.html', 'stone-and-soul.html', 'glass-and-glow.html', 'styles.css', 'script.js', 'popup.css', 'popup.js', 'care.css', 'care.js']);
 const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.woff2': 'font/woff2' };
 http.createServer((req, res) => {
   let pathname;
