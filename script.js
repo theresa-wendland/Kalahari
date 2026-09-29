@@ -84,7 +84,7 @@ dialog.addEventListener('click', event => {
 document.querySelector('#dialog-contact').addEventListener('click', () => dialog.close());
 const yearLabel = document.querySelector('#year');
 if (yearLabel) yearLabel.textContent = new Date().getFullYear();
-if (studioEmail) {
+if (studioEmail && document.querySelector('#contact-link')) {
   const contactLink = document.querySelector('#contact-link');
   contactLink.href = `mailto:${studioEmail}?subject=${encodeURIComponent('Jewelry enquiry')}`;
   contactLink.hidden = false;
